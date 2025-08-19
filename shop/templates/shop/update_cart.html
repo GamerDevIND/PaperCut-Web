@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart - PaperCut</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>PaperCut - Cart</h1>
+    </header>
+
+    <main>
+        {% if cart_items %}
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="80">
+                            {% endif %}
+                            {{ item.product.name }}
+                        </td>
+                        <td>₹ {{ item.product.price }}</td>
+                        <td>
+                            <form method="post" action="{% url 'update_cart' item.product.pk %}">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class = "quantity_input">
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                        <td>₹ {{ item.product.price|floatformat:2|add:"0"|floatformat:"2"|floatformat|multiply:item.quantity }}</td>
+                        <td>
+                            <form method="post" action="{% url 'remove_from_cart' item.product.pk %}">
+                                {% csrf_token %}
+                                <button type="submit">X</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <p><strong>Total: ₹ {{ cart_total }}</strong></p>
+            <button>Checkout</button>
+        {% else %}
+            <p>Your cart is empty. <a href="{% url 'home' %}">Go shopping!</a></p>
+        {% endif %}
+
+        <p><a href="{% url 'home' %}" class="Back">← Back to Home</a></p>
+    </main>
+</body>
+</html>

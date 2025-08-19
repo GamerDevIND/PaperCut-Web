@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }} - PaperCut</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>PaperCut - {{ product.name }} Details</h1>
+    </header>
+
+    <main>
+        <div class="product-detail">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="detail-image">
+            {% else %}
+                <img src="{% static 'images/placeholder.png' %}" alt="No image" class="detail-image">
+            {% endif %}
+
+            <h2>{{ product.name }}</h2>
+            <p class="desc">{{ product.description }}</p>
+            <p class="price">₹ {{ product.price }}</p>
+            <a href="{% url 'add_to_cart' product.pk %}" class="btn-link">Add to Cart</a>
+        </div>
+
+        <p><a href="{% url 'home' %}" class="Back">Back to Home</a></p>
+    </main>
+</body>
+</html>

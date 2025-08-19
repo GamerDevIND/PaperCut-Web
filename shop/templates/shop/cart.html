@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart - PaperCut</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>🛒 My Store - Cart</h1>
+    </header>
+
+    <main>
+        <div class="product-grid">
+            {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="product-card">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                    {% else %}
+                        <img src="{% static 'images/placeholder.png' %}" alt="No image">
+                    {% endif %}
+                    <h2>{{ item.product.name }}</h2>
+                    <p class="desc">{{ item.product.description }}</p>
+                    <p class="price">₹ {{ item.product.price }}</p>
+
+                    <form action="{% url 'update_cart' item.product.pk %}" method="post">
+                        {% csrf_token %}
+                        <label>Quantity:
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                        </label>
+                        <button type="submit" class="btn-link">Update</button>
+                    </form>
+
+                    <a href="{% url 'remove_from_cart' item.product.pk %}" class="Back">Remove</a>
+                </div>
+                {% endfor %}
+
+                <div class="product-detail">
+                    <h2>Total: ₹ {{ cart_total }}</h2>
+                    <button>Checkout</button>
+                </div>
+            {% else %}
+                <p class="desc" style="text-align:center;">Your cart is empty.</p>
+            {% endif %}
+        </div>
+
+        <p style="text-align:center;">
+            <a href="{% url 'home' %}" class="Back">← Back to Home</a>
+        </p>
+    </main>
+</body>
+</html>

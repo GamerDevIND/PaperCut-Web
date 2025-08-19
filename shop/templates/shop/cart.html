@@ -12,41 +12,46 @@
     </header>
 
     <main>
+        {% if cart_items %}
         <div class="product-grid">
-            {% if cart_items %}
-                {% for item in cart_items %}
-                <div class="product-card">
-                    {% if item.product.image %}
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-                    {% else %}
-                        <img src="{% static 'images/placeholder.png' %}" alt="No image">
-                    {% endif %}
-                    <h2>{{ item.product.name }}</h2>
-                    <p class="desc">{{ item.product.description }}</p>
-                    <p class="price">₹ {{ item.product.price }}</p>
+            {% for item in cart_items %}
+            <div class="product-card">
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                {% else %}
+                    <img src="{% static 'images/placeholder.png' %}" alt="No image">
+                {% endif %}
 
-                    <form action="{% url 'update_cart' item.product.pk %}" method="post">
-                        {% csrf_token %}
-                        <label>Quantity:
-                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class = "quantity_input">
-                        </label>
-                        <button type="submit" class="btn-link">Update</button>
-                    </form>
+                <h2>{{ item.product.name }}</h2>
+                <p class="desc">{{ item.product.description }}</p>
+                <p class="price">₹ {{ item.product.price }}</p>
 
-                    <a href="{% url 'remove_from_cart' item.product.pk %}" class="Back">Remove</a>
-                </div>
-                {% endfor %}
+                <form action="{% url 'update_cart' item.product.pk %}" method="post" class="cart-form">
+                    {% csrf_token %}
+                    <label>Quantity:
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="quantity_input">
+                    </label>
+                    <button type="submit" class="btn-link">Update</button>
+                </form>
 
-                <div class="product-detail">
-                    <h2>Total: ₹ {{ cart_total }}</h2>
-                    <button>Checkout</button>
-                </div>
-            {% else %}
-                <p class="desc" style="text-align:center;">Your cart is empty.</p>
-            {% endif %}
+                <form action="{% url 'remove_from_cart' item.product.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="Back">Remove</button>
+                </form>
+            </div>
+            {% endfor %}
         </div>
 
-        <p style="text-align:center;">
+        <div class="product-detail" style="text-align:center;">
+            <h2>Total: ₹ {{ cart_total }}</h2>
+            <button class="btn-link">Checkout</button>
+        </div>
+
+        {% else %}
+            <p class="desc" style="text-align:center;">Your cart is empty. <a href="{% url 'home' %}" class="Back">Go shopping!</a></p>
+        {% endif %}
+
+        <p style="text-align:center; margin-top: 20px;">
             <a href="{% url 'home' %}" class="Back">← Back to Home</a>
         </p>
     </main>

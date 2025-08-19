@@ -191,6 +191,11 @@ button:hover {
     font-size: 14px;
     outline: none;
 }
+.quantity_input::-webkit-inner-spin-button, 
+.quantity_input::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
 .quantity_input:focus {
     border-color: #61dafb;
     box-shadow: 0 0 5px #61dafb;

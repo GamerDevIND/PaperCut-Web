@@ -28,7 +28,7 @@
                     <form action="{% url 'update_cart' item.product.pk %}" method="post">
                         {% csrf_token %}
                         <label>Quantity:
-                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class = "quantity_input">
                         </label>
                         <button type="submit" class="btn-link">Update</button>
                     </form>

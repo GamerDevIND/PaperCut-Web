@@ -22,7 +22,11 @@
             <h2>{{ product.name }}</h2>
             <p class="desc">{{ product.description }}</p>
             <p class="price">₹ {{ product.price }}</p>
-           <a href="{% url 'cart_detail' %}">Go to Cart</a>
+           <form action="{% url 'add_to_cart' product.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-link">Add to Cart</button>
+            </form>
+
         </div>
 
         <p><a href="{% url 'home' %}" class="Back">Back to Home</a></p>

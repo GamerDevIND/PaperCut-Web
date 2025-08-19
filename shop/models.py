@@ -10,3 +10,16 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Order(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    address = models.TextField()
+    phone = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    total = models.FloatField()
+    # optional: add status like 'pending', 'completed'
+    
+    def __str__(self):
+        return f"Order {self.id} by {self.name}" # type:ignore

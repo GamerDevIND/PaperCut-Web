@@ -1,6 +1,7 @@
 from django.shortcuts import render,  get_object_or_404
 from .models import Product
 from django.shortcuts import redirect
+from .forms import CheckoutForm
 
 # Create your views here.
 
@@ -56,3 +57,26 @@ def remove_from_cart(request, pk):
     cart.pop(str(pk), None)
     request.session['cart'] = cart
     return redirect('cart_detail')
+
+def checkout(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+    cart_total = 0
+
+    for pk, qty in cart.items():
+        product = get_object_or_404(Product, pk=pk)
+        cart_items.append({'product': product, 'quantity': qty})
+        cart_total += product.price * qty
+
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.total = cart_total
+            order.save()
+            request.session['cart'] = {}  # empty cart after order
+            return render(request, 'shop/checkout_success.html', {'order': order})
+    else:
+        form = CheckoutForm()
+
+    return render(request, 'shop/checkout.html', {'cart_items': cart_items, 'cart_total': cart_total, 'form': form})

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - PaperCut</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header><h1>Checkout</h1></header>
+<main>
+    {% if cart_items %}
+    <div class="product-grid">
+        {% for item in cart_items %}
+        <div class="product-card">
+            <h2>{{ item.product.name }}</h2>
+            <p class="price">₹ {{ item.product.price }} x {{ item.quantity }} = ₹ {{ item.product.price|multiply:item.quantity }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <h3>Total: ₹ {{ cart_total }}</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-link">Place Order</button>
+    </form>
+    {% else %}
+    <p>Your cart is empty. <a href="{% url 'home' %}">Go shopping!</a></p>
+    {% endif %}
+</main>
+</body>
+</html>

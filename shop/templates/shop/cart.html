@@ -29,7 +29,7 @@
                 <form action="{% url 'update_cart' item.product.pk %}" method="post" class="cart-form">
                     {% csrf_token %}
                     <label>Quantity:
-                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="quantity_input">
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="quantity_input" style="background:#1a1a1a;color:#fff;border:1px solid #444;">
                     </label>
                     <button type="submit" class="btn-link">Update</button>
                 </form>

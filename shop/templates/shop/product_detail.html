@@ -22,7 +22,7 @@
             <h2>{{ product.name }}</h2>
             <p class="desc">{{ product.description }}</p>
             <p class="price">₹ {{ product.price }}</p>
-            <a href="{% url 'add_to_cart' product.pk %}" class="btn-link">Add to Cart</a>
+            <a href="{% url 'cart' product.pk %}" class="btn-link">Add to Cart</a>
         </div>
 
         <p><a href="{% url 'home' %}" class="Back">Back to Home</a></p>

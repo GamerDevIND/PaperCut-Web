@@ -65,8 +65,13 @@ def checkout(request):
 
     for pk, qty in cart.items():
         product = get_object_or_404(Product, pk=pk)
-        cart_items.append({'product': product, 'quantity': qty})
-        cart_total += product.price * qty
+        subtotal = product.price * qty           # <-- calculate here
+        cart_items.append({
+            'product': product,
+            'quantity': qty,
+            'subtotal': subtotal                # <-- pass subtotal to template
+        })
+        cart_total += subtotal
 
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
@@ -79,4 +84,8 @@ def checkout(request):
     else:
         form = CheckoutForm()
 
-    return render(request, 'shop/checkout.html', {'cart_items': cart_items, 'cart_total': cart_total, 'form': form})
+    return render(request, 'shop/checkout.html', {
+        'cart_items': cart_items,
+        'cart_total': cart_total,
+        'form': form
+    })

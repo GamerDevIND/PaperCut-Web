@@ -6,27 +6,44 @@
     <title>Checkout - PaperCut</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-<header><h1>Checkout</h1></header>
-<main>
-    {% if cart_items %}
-    <div class="product-grid">
-        {% for item in cart_items %}
-        <div class="product-card">
-            <h2>{{ item.product.name }}</h2>
-            <p class="price">₹ {{ item.product.price }} x {{ item.quantity }} = ₹ {{ item.product.price|multiply:item.quantity }}</p>
-        </div>
-        {% endfor %}
-    </div>
-    <h3>Total: ₹ {{ cart_total }}</h3>
+<body class="checkout-body">
+<header class="checkout-header">
+    <h1 class="checkout-title">PaperCut - Checkout</h1>
+</header>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn-link">Place Order</button>
-    </form>
+<main class="checkout-main">
+    {% if cart_items %}
+        <table class="cart-table checkout-table">
+            <thead class="checkout-thead">
+                <tr>
+                    <th class="checkout-th">Product</th>
+                    <th class="checkout-th">Price</th>
+                    <th class="checkout-th">Quantity</th>
+                    <th class="checkout-th">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody class="checkout-tbody">
+                {% for item in cart_items %}
+                <tr class="checkout-tr">
+                    <td class="checkout-td">{{ item.product.name }}</td>
+                    <td class="checkout-td">₹ {{ item.product.price }}</td>
+                    <td class="checkout-td">{{ item.quantity }}</td>
+                    <td class="checkout-td">₹ {{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p class="checkout-total"><strong>Total: ₹ {{ cart_total }}</strong></p>
+
+        <h2 class="billing-title">Billing Information</h2>
+        <form method="post" class="billing-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-link checkout-btn">Place Order</button>
+        </form>
     {% else %}
-    <p>Your cart is empty. <br> <a href="{% url 'home' %}">Go shopping!</a></p>
+        <p class="empty-cart">Your cart is empty. <br><a href="{% url 'home' %}" class="Back checkout-back">Go shopping!</a></p>
     {% endif %}
 </main>
 </body>

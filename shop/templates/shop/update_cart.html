@@ -36,11 +36,11 @@
                         <td>
                             <form method="post" action="{% url 'update_cart' item.product.pk %}">
                                 {% csrf_token %}
-                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class = "quantity_input">
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="quantity_input">
                                 <button type="submit">Update</button>
                             </form>
                         </td>
-                        <td>₹ {{ item.product.price|floatformat:2|add:"0"|floatformat:"2"|floatformat|multiply:item.quantity }}</td>
+                        <td>₹ {{ item.product.price|floatformat:2|add:"0"|floatformat:"2"|multiply:item.quantity }}</td>
                         <td>
                             <form method="post" action="{% url 'remove_from_cart' item.product.pk %}">
                                 {% csrf_token %}

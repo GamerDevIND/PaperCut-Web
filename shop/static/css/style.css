@@ -162,8 +162,29 @@ button:hover {
     transform: scale(1.025);
 }
 
-.quantity_input{
+.cart-table {
+    width: 90%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    color: #f1f1f1;
+}
+.cart-table th, .cart-table td {
+    padding: 12px;
+    border: 1px solid #2a2a2a;
+    text-align: center;
+}
+.cart-table th {
+    background-color: #20232a;
+}
+.cart-table img {
+    border-radius: 6px;
+}
+.quantity_input {
+    width: 50px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #444;
     background-color: #1a1a1a;
     color: #f1f1f1;
-    border-radius: 3px;
 }

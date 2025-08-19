@@ -181,10 +181,17 @@ button:hover {
     border-radius: 6px;
 }
 .quantity_input {
-    width: 50px;
-    text-align: center;
-    border-radius: 4px;
-    border: 1px solid #444;
     background-color: #1a1a1a;
     color: #f1f1f1;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 5px 8px;
+    width: 50px;
+    text-align: center;
+    font-size: 14px;
+    outline: none;
+}
+.quantity_input:focus {
+    border-color: #61dafb;
+    box-shadow: 0 0 5px #61dafb;
 }
